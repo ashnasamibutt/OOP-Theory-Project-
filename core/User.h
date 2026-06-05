@@ -1,8 +1,10 @@
 #ifndef USER_H
 #define USER_H
 
-#include<string>
-#include<fstream>
+// ABSTRACT BASE CLASS 
+
+#include <string>
+#include <fstream>
 using namespace std;
 
 class User {
@@ -13,7 +15,7 @@ protected:
    string password;
    string role;
 public:
-  //Constructors and Destructors
+  //Constructor and Destructor
   User(int id, string name, string email, string password, string role);
   virtual ~User();
 
