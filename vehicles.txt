@@ -1,3 +1,2 @@
-2001|LEC-4412|50|Arshad Khan|Bus|22
-2002|LHR-8899|50|Unassigned|Bus|50
-2003|ST-1122|15|Sajid Mahmood|Van|8
+BUS|1|LHR-8899|40|0|Sajid Khan|1|1
+VAN|2|ISB-1234|15|1|Muhammad Ali|1|Toyota HiAce

@@ -1,3 +1,2 @@
-3001|Main Campus|New Campus|32.5|2001
-3002|Gulberg|New Campus|24.0|2003
-3003|DHA Phase 5|New Campus|41.2|2002
+ROUTE|1|Rawalpindi Saddar|FAST NUCES Islamabad|18.5|2
+ROUTE|2|Islamabad G-11|FAST NUCES Islamabad|12|1
