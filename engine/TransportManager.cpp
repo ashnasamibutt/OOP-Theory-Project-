@@ -11,54 +11,13 @@ using namespace std;
 
 TransportManager::TransportManager()
 {
-    vehicleCapacity = 10;
-    vehicleCount    = 0;
-    vehicles        = new Vehicle*[vehicleCapacity];
-
-    routeCapacity   = 10;
-    routeCount      = 0;
-    routes          = new Route*[routeCapacity];
-
-    passCapacity    = 10;
-    passCount       = 0;
-    passes          = new TransportPass*[passCapacity];
+    // No manual allocations needed; DynamicArray handles its own initialization!
 }
 
 TransportManager::~TransportManager() {
-    for (int i = 0; i < vehicleCount; i++) delete vehicles[i];
-    delete[] vehicles;
-
-    for (int i = 0; i < routeCount; i++) delete routes[i];
-    delete[] routes;
-
-    for (int i = 0; i < passCount; i++) delete passes[i];
-    delete[] passes;
-}
-
-// Resize Helpers
-
-void TransportManager::resizeVehicles() {
-    vehicleCapacity *= 2;
-    Vehicle** temp = new Vehicle*[vehicleCapacity];
-    for (int i = 0; i < vehicleCount; i++) temp[i] = vehicles[i];
-    delete[] vehicles;
-    vehicles = temp;
-}
-
-void TransportManager::resizeRoutes() {
-    routeCapacity *= 2;
-    Route** temp = new Route*[routeCapacity];
-    for (int i = 0; i < routeCount; i++) temp[i] = routes[i];
-    delete[] routes;
-    routes = temp;
-}
-
-void TransportManager::resizePasses() {
-    passCapacity *= 2;
-    TransportPass** temp = new TransportPass*[passCapacity];
-    for (int i = 0; i < passCount; i++) temp[i] = passes[i];
-    delete[] passes;
-    passes = temp;
+    for (int i = 0; i < vehicles.getSize(); i++) delete vehicles[i];
+    for (int i = 0; i < routes.getSize(); i++) delete routes[i];
+    for (int i = 0; i < passes.getSize(); i++) delete passes[i];
 }
 
 // Vehicle Management
@@ -70,21 +29,20 @@ void TransportManager::addVehicle(Vehicle* vehicle) {
         cout << "[Error] Vehicle ID " << vehicle->getVehicleId() << " already exists.\n";
         return;
     }
-    if (vehicleCount == vehicleCapacity) resizeVehicles();
-    vehicles[vehicleCount++] = vehicle;
+    vehicles.push_back(vehicle);
     cout << "[Info] Vehicle ID " << vehicle->getVehicleId() << " ("
          << vehicle->getType() << ") added.\n";
 }
 
 bool TransportManager::removeVehicle(int vehicleId) {
-    for (int i = 0; i < vehicleCount; i++) {
+    for (int i = 0; i < vehicles.getSize(); i++) {
         if (vehicles[i]->getVehicleId() == vehicleId) {
             if (vehicles[i]->getSeatsOccupied() > 0) {
                 cout << "[Error] Vehicle has active passengers. Cannot remove.\n";
                 return false;
             }
             delete vehicles[i];
-            vehicles[i] = vehicles[--vehicleCount];
+            vehicles.removeAt(i);
             cout << "[Info] Vehicle ID " << vehicleId << " removed.\n";
             return true;
         }
@@ -94,16 +52,16 @@ bool TransportManager::removeVehicle(int vehicleId) {
 }
 
 Vehicle* TransportManager::findVehicleById(int vehicleId) const {
-    for (int i = 0; i < vehicleCount; i++)
+    for (int i = 0; i < vehicles.getSize(); i++)
         if (vehicles[i]->getVehicleId() == vehicleId)
             return vehicles[i];
     return nullptr;
 }
 
 void TransportManager::displayAllVehicles() const {
-    if (vehicleCount == 0) { cout << "[Info] No vehicles registered.\n"; return; }
-    cout << "\n=== ALL VEHICLES (" << vehicleCount << ") ===\n";
-    for (int i = 0; i < vehicleCount; i++)
+    if (vehicles.getSize() == 0) { cout << "[Info] No vehicles registered.\n"; return; }
+    cout << "\n=== ALL VEHICLES (" << vehicles.getSize() << ") ===\n";
+    for (int i = 0; i < vehicles.getSize(); i++)
         vehicles[i]->displayInfo();
 }
 
@@ -116,16 +74,15 @@ void TransportManager::addRoute(Route* route) {
         cout << "[Error] Route ID " << route->getRouteId() << " already exists.\n";
         return;
     }
-    if (routeCount == routeCapacity) resizeRoutes();
-    routes[routeCount++] = route;
+    routes.push_back(route);
     cout << "[Info] Route ID " << route->getRouteId() << " added.\n";
 }
 
 bool TransportManager::removeRoute(int routeId) {
-    for (int i = 0; i < routeCount; i++) {
+    for (int i = 0; i < routes.getSize(); i++) {
         if (routes[i]->getRouteId() == routeId) {
             delete routes[i];
-            routes[i] = routes[--routeCount];
+            routes.removeAt(i);
             cout << "[Info] Route ID " << routeId << " removed.\n";
             return true;
         }
@@ -135,7 +92,7 @@ bool TransportManager::removeRoute(int routeId) {
 }
 
 Route* TransportManager::findRouteById(int routeId) const {
-    for (int i = 0; i < routeCount; i++)
+    for (int i = 0; i < routes.getSize(); i++)
         if (routes[i]->getRouteId() == routeId)
             return routes[i];
     return nullptr;
@@ -155,9 +112,9 @@ void TransportManager::assignVehicleToRoute(int vehicleId, int routeId) {
 }
 
 void TransportManager::displayAllRoutes() const {
-    if (routeCount == 0) { cout << "[Info] No routes registered.\n"; return; }
-    cout << "\n=== ALL ROUTES (" << routeCount << ") ===\n";
-    for (int i = 0; i < routeCount; i++)
+    if (routes.getSize() == 0) { cout << "[Info] No routes registered.\n"; return; }
+    cout << "\n=== ALL ROUTES (" << routes.getSize() << ") ===\n";
+    for (int i = 0; i < routes.getSize(); i++)
         routes[i]->displayInfo();
 }
 
@@ -177,21 +134,20 @@ void TransportManager::addPass(TransportPass* pass) {
     if (!vehicle)               { cout << "[Error] Vehicle not found.\n";              return; }
     if (!vehicle->hasAvailableSeat()) { cout << "[Error] Vehicle is at full capacity.\n"; return; }
 
-    if (passCount == passCapacity) resizePasses();
-    passes[passCount++] = pass;
+    passes.push_back(pass);
     cout << "[Info] Application submitted. Pass ID: " << pass->getPassId()
          << " — awaiting admin approval.\n";
 }
 
 TransportPass* TransportManager::findPassById(int passId) const {
-    for (int i = 0; i < passCount; i++)
+    for (int i = 0; i < passes.getSize(); i++)
         if (passes[i]->getPassId() == passId)
             return passes[i];
     return nullptr;
 }
 
 TransportPass* TransportManager::findPassByStudentId(int studentId) const {
-    for (int i = 0; i < passCount; i++)
+    for (int i = 0; i < passes.getSize(); i++)
         if (passes[i]->getStudentId() == studentId &&
             passes[i]->getStatus()    != "Cancelled" &&
             passes[i]->getStatus()    != "Rejected")
@@ -217,16 +173,16 @@ void TransportManager::rejectPass(int passId) {
 }
 
 void TransportManager::displayAllPasses() const {
-    if (passCount == 0) { cout << "[Info] No transport passes found.\n"; return; }
-    cout << "\n=== ALL PASSES (" << passCount << ") ===\n";
-    for (int i = 0; i < passCount; i++)
+    if (passes.getSize() == 0) { cout << "[Info] No transport passes found.\n"; return; }
+    cout << "\n=== ALL PASSES (" << passes.getSize() << ") ===\n";
+    for (int i = 0; i < passes.getSize(); i++)
         passes[i]->displayPass();
 }
 
 void TransportManager::displayPendingPasses() const {
     cout << "\n=== PENDING APPLICATIONS ===\n";
     bool found = false;
-    for (int i = 0; i < passCount; i++) {
+    for (int i = 0; i < passes.getSize(); i++) {
         if (passes[i]->getStatus() == "Pending") {
             passes[i]->displayPass();
             found = true;
@@ -241,21 +197,21 @@ void TransportManager::saveAll() const {
     ofstream vFile("vehicles.txt");
     if (!vFile.is_open()) cout << "[Error] Could not open vehicles.txt.\n";
     else {
-        for (int i = 0; i < vehicleCount; i++) vehicles[i]->saveToFile(vFile);
+        for (int i = 0; i < vehicles.getSize(); i++) vehicles[i]->saveToFile(vFile);
         vFile.close();
     }
 
     ofstream rFile("routes.txt");
     if (!rFile.is_open()) cout << "[Error] Could not open routes.txt.\n";
     else {
-        for (int i = 0; i < routeCount; i++) routes[i]->saveToFile(rFile);
+        for (int i = 0; i < routes.getSize(); i++) routes[i]->saveToFile(rFile);
         rFile.close();
     }
 
     ofstream pFile("registrations.txt");
     if (!pFile.is_open()) cout << "[Error] Could not open registrations.txt.\n";
     else {
-        for (int i = 0; i < passCount; i++) passes[i]->saveToFile(pFile);
+        for (int i = 0; i < passes.getSize(); i++) passes[i]->saveToFile(pFile);
         pFile.close();
     }
 
@@ -368,20 +324,19 @@ void TransportManager::loadAll() {
                 else if (stat == "Rejected")  pass->reject();
                 else if (stat == "Cancelled") pass->cancel();
 
-                if (passCount == passCapacity) resizePasses();
-                passes[passCount++] = pass;
+                passes.push_back(pass);
             }
         }
         pFile.close();
     }
 
-    cout << "[Info] Data loaded — Vehicles: " << vehicleCount
-         << " | Routes: " << routeCount
-         << " | Passes: " << passCount << "\n";
+    cout << "[Info] Data loaded — Vehicles: " << vehicles.getSize()
+         << " | Routes: " << routes.getSize()
+         << " | Passes: " << passes.getSize() << "\n";
 }
 
 // Getters
 
-int TransportManager::getVehicleCount() const { return vehicleCount; }
-int TransportManager::getRouteCount()   const { return routeCount;   }
-int TransportManager::getPassCount()    const { return passCount;     }
+int TransportManager::getVehicleCount() const { return vehicles.getSize(); }
+int TransportManager::getRouteCount()   const { return routes.getSize();   }
+int TransportManager::getPassCount()    const { return passes.getSize();     }

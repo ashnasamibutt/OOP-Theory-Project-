@@ -4,6 +4,7 @@
 // AGGREGATOR CLASS
 // Owns: Vehicle** (aggregation), Route** (aggregation), TransportPass** (aggregation)
 
+#include "../core/DynamicArray.h"
 #include "../vehicles/Vehicle.h"
 #include "../core/Route.h"
 #include "../core/TransportPass.h"
@@ -11,22 +12,9 @@ using namespace std;
 
 class TransportManager {
 private:
-    Vehicle**       vehicles;
-    int             vehicleCount;
-    int             vehicleCapacity;
-
-    Route**         routes;
-    int             routeCount;
-    int             routeCapacity;
-
-    TransportPass** passes;
-    int             passCount;
-    int             passCapacity;
-
-    // Internal resize helpers
-    void resizeVehicles();
-    void resizeRoutes();
-    void resizePasses();
+    DynamicArray<Vehicle*>       vehicles;
+    DynamicArray<Route*>         routes;
+    DynamicArray<TransportPass*> passes;
 
 public:
     TransportManager();

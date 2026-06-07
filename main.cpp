@@ -1,11 +1,14 @@
 #include <iostream>
+#ifdef _WIN32
 #include <windows.h>
+#endif
 #include <fstream>
 #include <sstream>
 #include <limits>
 #include <stdexcept>
 using namespace std;
 
+#include "core/DynamicArray.h"
 #include "users/Admin.h"
 #include "users/Student.h"
 #include "users/Driver.h"
@@ -15,9 +18,7 @@ using namespace std;
 
 //  GLOBAL STATE
 
-User**           users        = nullptr;
-int              userCount    = 0;
-int              userCapacity = 10;
+DynamicArray<User*> users(10);
 
 // Auto-increment ID counters (updated during load)
 int nextUserId    = 1;
@@ -78,28 +79,19 @@ float getFloatInput(const string& prompt) {
 
 //  USER ARRAY MANAGEMENT
 
-void resizeUsers() {
-    userCapacity *= 2;
-    User** temp = new User*[userCapacity];
-    for (int i = 0; i < userCount; i++) temp[i] = users[i];
-    delete[] users;
-    users = temp;
-}
-
 void addUser(User* user) {
-    if (userCount == userCapacity) resizeUsers();
-    users[userCount++] = user;
+    users.push_back(user);
 }
 
 User* findUserByEmail(const string& email) {
-    for (int i = 0; i < userCount; i++)
+    for (int i = 0; i < users.getSize(); i++)
         if (users[i]->getEmail() == email)
             return users[i];
     return nullptr;
 }
 
 User* findUserById(int id) {
-    for (int i = 0; i < userCount; i++)
+    for (int i = 0; i < users.getSize(); i++)
         if (users[i]->getId() == id)
             return users[i];
     return nullptr;
@@ -113,7 +105,7 @@ void saveUsers() {
         cout << "[Error] Could not open users.txt for writing.\n";
         return;
     }
-    for (int i = 0; i < userCount; i++)
+    for (int i = 0; i < users.getSize(); i++)
         users[i]->saveToFile(out);
     out.close();
     cout << "[Info] Users saved successfully.\n";
@@ -171,7 +163,7 @@ void loadUsers() {
         }
     }
     in.close();
-    cout << "[Info] Users loaded: " << userCount << "\n";
+    cout << "[Info] Users loaded: " << users.getSize() << "\n";
 }
 
 //  PERSISTENCE — COUNTERS
@@ -587,7 +579,7 @@ void adminMenu(Admin* admin) {
                 // Re-display via displayAllPasses and count inline
                 // Since TransportManager doesn't expose the raw array,
                 // we calculate from what we know
-                cout <<   "  │ Registered Users : " << userCount << "\n";
+                cout <<   "  │ Registered Users : " << users.getSize() << "\n";
                 cout <<   "  └─────────────────────────────────┘\n";
 
                 // ── Per-Route usage ───────────────
@@ -686,10 +678,9 @@ void mainMenu() {
 
 int main() {
 
+#ifdef _WIN32
     SetConsoleOutputCP(CP_UTF8);
-
-    // Initialise user array
-    users = new User*[userCapacity];
+#endif
 
     // Load all persisted data
     loadCounters();
@@ -700,8 +691,7 @@ int main() {
     mainMenu();
 
     // Cleanup
-    for (int i = 0; i < userCount; i++) delete users[i];
-    delete[] users;
+    for (int i = 0; i < users.getSize(); i++) delete users[i];
 
     return 0;
 }
