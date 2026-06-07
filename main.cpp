@@ -5,12 +5,12 @@
 #include <stdexcept>
 using namespace std;
 
-#include "Admin.h"
-#include "Student.h"
-#include "Driver.h"
-#include "Bus.h"
-#include "Van.h"
-#include "TransportManager.h"
+#include "users/Admin.h"
+#include "users/Student.h"
+#include "users/Driver.h"
+#include "vehicles/Bus.h"
+#include "vehicles/Van.h"
+#include "engine/TransportManager.h"
 
 //  GLOBAL STATE
 

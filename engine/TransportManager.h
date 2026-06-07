@@ -4,9 +4,9 @@
 // AGGREGATOR CLASS
 // Owns: Vehicle** (aggregation), Route** (aggregation), TransportPass** (aggregation)
 
-#include "Vehicle.h"
-#include "Route.h"
-#include "TransportPass.h"
+#include "../vehicles/Vehicle.h"
+#include "../core/Route.h"
+#include "../core/TransportPass.h"
 using namespace std;
 
 class TransportManager {

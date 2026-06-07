@@ -1,6 +1,6 @@
 #include "TransportManager.h"
-#include "Van.h"
-#include "Bus.h"
+#include "../vehicles/Van.h"
+#include "../vehicles/Bus.h"
 #include <iostream>
 #include <fstream>
 #include <sstream>
