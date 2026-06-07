@@ -1,2 +1,4 @@
-ADMIN|1|ammar|ammar|ammar|ammar
-STUDENT|2|ashna|ashnasamibutt@gmail.com|12345|562|cs|0
+1001|Ashna|ashna@uet.edu.pk|securePass123|Admin|N/A
+1002|Ahmad|ahmad@uet.edu.pk|uLahore2026|Admin|N/A
+1003|Zain Ahmed|2025cs103@student.uet.edu.pk|zainpass|Student|Pending
+1004|Ayesha Khan|2025ee44@student.uet.edu.pk|ayeshapass|Student|Approved

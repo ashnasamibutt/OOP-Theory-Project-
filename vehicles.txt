@@ -1,1 +1,3 @@
-BUS|1|123|43|0|ammar|1|1
+2001|LEC-4412|50|Arshad Khan|Bus|22
+2002|LHR-8899|50|Unassigned|Bus|50
+2003|ST-1122|15|Sajid Mahmood|Van|8
