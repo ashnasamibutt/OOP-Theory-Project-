@@ -1,1 +1,2 @@
 ADMIN|1|ammar|ammar|ammar|ammar
+STUDENT|2|ashna|ashnasamibutt@gmail.com|12345|562|cs|0

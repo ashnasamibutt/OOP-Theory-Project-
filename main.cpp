@@ -1,4 +1,5 @@
 #include <iostream>
+#include <windows.h>
 #include <fstream>
 #include <sstream>
 #include <limits>
@@ -32,7 +33,7 @@ TransportManager manager;
 // Clears bad cin state and flushes the input buffer
 void clearInput() {
     cin.clear();
-    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+    cin.ignore((numeric_limits<streamsize>::max)(), '\n');
 }
 
 // Returns a validated integer within [min, max]
@@ -684,6 +685,9 @@ void mainMenu() {
 // ═══════════════════════════════════════════════════════
 
 int main() {
+
+    SetConsoleOutputCP(CP_UTF8);
+
     // Initialise user array
     users = new User*[userCapacity];
 
