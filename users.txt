@@ -1,4 +1,4 @@
 ADMIN|1|Admin User|admin@fast.edu|admin123|FAST2026
 STUDENT|2|Ali Khan|ali@gmail.com|ali123|22i-0123|CS|1
-STUDENT|3|Ayesha Bibi|ayesha@gmail.com|ayesha123|22i-0456|SE|0
+STUDENT|3|Ayesha Bibi|ayesha@gmail.com|ayesha123|22i-0456|SE|1
 DRIVER|4|Sajid Khan|sajid@gmail.com|sajid123|L-78945|1|0
