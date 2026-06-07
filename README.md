@@ -4,18 +4,6 @@ Ayesha Zulqarnain 563
 
 ## Compilation and Running
 
-### 🐧 Linux / macOS (Terminal)
-To compile from the root folder:
-```bash
-g++ -std=c++17 main.cpp users/*.cpp vehicles/*.cpp core/*.cpp engine/*.cpp -o transport_system
-```
-To run:
-```bash
-./transport_system
-```
-
----
-
 ### 🪟 Windows (PowerShell / Command Prompt)
 On Windows, you can compile the program using `g++` (via MinGW/MSYS2). 
 
@@ -28,7 +16,6 @@ g++ -std=c++17 main.cpp "users/*.cpp" "vehicles/*.cpp" "core/*.cpp" "engine/*.cp
 #### Option 2: Explicit List (PowerShell / Command Prompt)
 If the wildcard command above gives errors, list the source files explicitly:
 ```powershell
-g++ -std=c++17 main.cpp users/User.cpp users/Admin.cpp users/Student.cpp users/Driver.cpp vehicles/Vehicle.cpp vehicles/Bus.cpp vehicles/Van.cpp core/Bill.cpp core/Route.cpp core/TransportPass.cpp engine/TransportManager.cpp -o transport_system.exe
 ```
 
 To run on Windows:
