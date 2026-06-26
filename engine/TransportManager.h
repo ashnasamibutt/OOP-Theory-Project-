@@ -10,7 +10,8 @@
 #include "../core/TransportPass.h"
 using namespace std;
 
-class TransportManager {
+class TransportManager 
+{
 private:
     DynamicArray<Vehicle*>       vehicles;
     DynamicArray<Route*>         routes;
